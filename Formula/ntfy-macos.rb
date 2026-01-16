@@ -2,17 +2,32 @@ class NtfyMacos < Formula
   desc "Native macOS CLI notifier and automation agent for ntfy"
   homepage "https://github.com/laurentftech/ntfy-macos"
   url "https://github.com/laurentftech/ntfy-macos/archive/refs/tags/v0.1.0.tar.gz"
-  sha256 "81cea53ea0d8d3486dd150fbe65d4d1e747f28f217a739e31246751cb12d3f1a"
-  license "MIT"
+  sha256 "efcaeb3ebbb5b0b0f5e0933cbb1a28b0e54502459f57efcaf3eb251ac68db0ad"
+  license "Apache-2.0"
+  version "v0.1.0"
   head "https://github.com/laurentftech/ntfy-macos.git", branch: "main"
 
-  depends_on xcode: ["14.0", :build]
+  depends_on xcode: ["15.0", :build]
   depends_on :macos
 
   def install
-    system "./build-app.sh"
-    prefix.install ".build/release/ntfy-macos.app"
-    bin.install_symlink prefix/"ntfy-macos.app/Contents/MacOS/ntfy-macos"
+    system "swift", "build", "-c", "release", "--disable-sandbox"
+    
+    app_name = "ntfy-macos"
+    app_bundle = "#{app_name}.app"
+    build_dir = ".build/release"
+    
+    mkdir_p "#{build_dir}/#{app_bundle}/Contents/MacOS"
+    mkdir_p "#{build_dir}/#{app_bundle}/Contents/Resources"
+    
+    cp "#{build_dir}/#{app_name}", "#{build_dir}/#{app_bundle}/Contents/MacOS/"
+    cp "Resources/Info.plist", "#{build_dir}/#{app_bundle}/Contents/"
+    cp "Resources/ntfy-macos.icns", "#{build_dir}/#{app_bundle}/Contents/Resources/"
+    
+    system "codesign", "--force", "--deep", "--sign", "-", "#{build_dir}/#{app_bundle}"
+    
+    prefix.install "#{build_dir}/#{app_bundle}"
+    bin.install_symlink prefix/"#{app_bundle}/Contents/MacOS/#{app_name}"
   end
 
   service do
@@ -23,6 +38,6 @@ class NtfyMacos < Formula
   end
 
   test do
-    system "#{bin}/ntfy-macos", "help"
+    system bin/"ntfy-macos", "help"
   end
 end
