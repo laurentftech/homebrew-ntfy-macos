@@ -3,7 +3,7 @@ class NtfyMacos < Formula
   homepage "https://github.com/laurentftech/ntfy-macos"
   url "https://github.com/laurentftech/ntfy-macos/archive/refs/tags/v1.0.0.tar.gz"
   sha256 "66544650cd2cdd588ac3bd302a1213725640c6fcab466a35120044aa888e9659"
-  license "Apache-2.0"
+  license "MIT"
 
   depends_on xcode: ["14.0", :build]
   depends_on :macos
