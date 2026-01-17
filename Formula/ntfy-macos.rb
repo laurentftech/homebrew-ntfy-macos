@@ -1,10 +1,10 @@
 class NtfyMacos < Formula
   desc "Native macOS CLI notifier and automation agent for ntfy"
   homepage "https://github.com/laurentftech/ntfy-macos"
-  url "https://github.com/laurentftech/ntfy-macos/archive/refs/tags/v0.1.2.tar.gz"
-  sha256 "f9e0aed0c153842ec3a53d12446c70dd0dbb30801285ec4f629d1612c461a52d"
+  url "https://github.com/laurentftech/ntfy-macos/archive/refs/tags/v0.1.3.tar.gz"
+  sha256 "014ea40dbb6b31cf0abf6ccaa9a3a782684a8d7b54f1016c4579aa06d14d5192"
   license "MIT"
-  version "v0.1.2"
+  version "v0.1.3"
   head "https://github.com/laurentftech/ntfy-macos.git", branch: "main"
 
   depends_on xcode: ["15.0", :build]
@@ -32,7 +32,7 @@ class NtfyMacos < Formula
 
   service do
     run [opt_prefix/"ntfy-macos.app/Contents/MacOS/ntfy-macos", "serve"]
-    keep_alive true
+    keep_alive crashed: true
     log_path var/"log/ntfy-macos/stdout.log"
     error_log_path var/"log/ntfy-macos/stderr.log"
   end
