@@ -2,7 +2,7 @@ class NtfyMacos < Formula
   desc "Native macOS CLI notifier and automation agent for ntfy"
   homepage "https://github.com/laurentftech/ntfy-macos"
   url "https://github.com/laurentftech/ntfy-macos/archive/refs/tags/v0.1.4.tar.gz"
-  sha256 "18325f1342ea3c8b6ebcc44a05b65122d258dec674327be870554b91271e0838"
+  sha256 "a2ae2d0e869853423185adc64cecabe138e4adb8d8635b8b0f7fd6ef27e88361"
   license "MIT"
   version "v0.1.4"
   head "https://github.com/laurentftech/ntfy-macos.git", branch: "main"
@@ -41,8 +41,6 @@ class NtfyMacos < Formula
     <<~EOS
       To add ntfy-macos to Launchpad:
         sudo ln -sf #{opt_prefix}/ntfy-macos.app /Applications/
-
-      To enable Start at Login, launch the app and check the option in the menu bar.
     EOS
   end
 
