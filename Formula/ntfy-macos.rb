@@ -2,7 +2,7 @@ class NtfyMacos < Formula
   desc "Native macOS CLI notifier and automation agent for ntfy"
   homepage "https://github.com/laurentftech/ntfy-macos"
   url "https://github.com/laurentftech/ntfy-macos/archive/refs/tags/v0.1.3.tar.gz"
-  sha256 "81c2c734fedf99618cdc19427155be5e826cfb8cdf228654afb4d6692ee896f9"
+  sha256 "1c50ef989b4d1615773a2bda42bf6f9fba5e8e8726469b1e698c31e64bb0260d"
   license "MIT"
   version "v0.1.3"
   head "https://github.com/laurentftech/ntfy-macos.git", branch: "main"
@@ -30,17 +30,6 @@ class NtfyMacos < Formula
     bin.install_symlink prefix/"#{app_bundle}/Contents/MacOS/#{app_name}"
   end
 
-  def post_install
-    # Create ~/Applications symlink for easy access from Finder/Launchpad
-    user_home = ENV["HOME"] || File.expand_path("~")
-    user_apps = "#{user_home}/Applications"
-    FileUtils.mkdir_p(user_apps) unless File.directory?(user_apps)
-    app_link = "#{user_apps}/ntfy-macos.app"
-    FileUtils.rm_f(app_link) if File.symlink?(app_link) || File.exist?(app_link)
-    FileUtils.ln_sf("#{opt_prefix}/ntfy-macos.app", app_link)
-    ohai "Created symlink in ~/Applications for easy access"
-  end
-
   service do
     run [opt_prefix/"ntfy-macos.app/Contents/MacOS/ntfy-macos", "serve"]
     keep_alive crashed: true
@@ -50,8 +39,8 @@ class NtfyMacos < Formula
 
   def caveats
     <<~EOS
-      ntfy-macos.app has been symlinked to ~/Applications.
-      You can now find it in Finder or Launchpad.
+      To add ntfy-macos to Launchpad:
+        sudo ln -sf #{opt_prefix}/ntfy-macos.app /Applications/
 
       To enable Start at Login, launch the app and check the option in the menu bar.
     EOS
