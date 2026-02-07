@@ -2,7 +2,7 @@ class NtfyMacos < Formula
   desc "Native macOS CLI notifier and automation agent for ntfy"
   homepage "https://github.com/laurentftech/ntfy-macos"
   url "https://github.com/laurentftech/ntfy-macos/archive/refs/tags/v1.0.0.tar.gz"
-  sha256 "f5ad7e60f1b7e87dd379d5be79f36119716c1d7a6f8af0391041535a5ea8a7da"
+  sha256 "eae09ae476709c1c754db84367d66b859f5ac28d23e6488bf70ec0e87159fbc4"
   license "MIT"
   version "v1.0.0"
   head "https://github.com/laurentftech/ntfy-macos.git", branch: "main"
