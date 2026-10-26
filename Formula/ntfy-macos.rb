@@ -1,10 +1,10 @@
 class NtfyMacos < Formula
   desc "Native macOS CLI notifier and automation agent for ntfy"
   homepage "https://github.com/laurentftech/ntfy-macos"
-  url "https://github.com/laurentftech/ntfy-macos/archive/refs/tags/v1.2.6.tar.gz"
-  sha256 "6d0aab9bf082bf0f5d5c810e9b56363345842f10feee8a64f91988117bdc207a"
+  url "https://github.com/laurentftech/ntfy-macos/archive/refs/tags/v1.3.0.tar.gz"
+  sha256 "91bd407d61ebfad5485f981517854bc7c91fc195385b19d42f89eb17cf8d8bbe"
   license "MIT"
-  version "v1.2.6"
+  version "v1.3.0"
   head "https://github.com/laurentftech/ntfy-macos.git", branch: "main"
 
   depends_on xcode: ["15.0", :build]
@@ -22,6 +22,13 @@ class NtfyMacos < Formula
     
     cp "#{build_dir}/#{app_name}", "#{build_dir}/#{app_bundle}/Contents/MacOS/"
     cp "Resources/Info.plist", "#{build_dir}/#{app_bundle}/Contents/"
+
+    # Source tarball carries the committed Info.plist; stamp the formula version into it
+    plist = "#{build_dir}/#{app_bundle}/Contents/Info.plist"
+    short_version = version.to_s.delete_prefix("v")
+    system "/usr/libexec/PlistBuddy", "-c", "Set :CFBundleShortVersionString #{short_version}", plist
+    system "/usr/libexec/PlistBuddy", "-c", "Set :CFBundleVersion #{short_version.delete(".")}", plist
+
     cp "Resources/ntfy-macos.icns", "#{build_dir}/#{app_bundle}/Contents/Resources/"
     
     system "codesign", "--force", "--deep", "--sign", "-", "#{build_dir}/#{app_bundle}"
