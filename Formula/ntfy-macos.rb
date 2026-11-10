@@ -1,10 +1,10 @@
 class NtfyMacos < Formula
   desc "Native macOS CLI notifier and automation agent for ntfy"
   homepage "https://github.com/laurentftech/ntfy-macos"
-  url "https://github.com/laurentftech/ntfy-macos/archive/refs/tags/v1.3.0.tar.gz"
-  sha256 "91bd407d61ebfad5485f981517854bc7c91fc195385b19d42f89eb17cf8d8bbe"
+  url "https://github.com/laurentftech/ntfy-macos/archive/refs/tags/v1.4.0.tar.gz"
+  sha256 "ddd121ab6b760c4f414538ce202bf704dd931da1610011cd5e58a91ee0551078"
   license "MIT"
-  version "v1.3.0"
+  version "v1.4.0"
   head "https://github.com/laurentftech/ntfy-macos.git", branch: "main"
 
   depends_on xcode: ["15.0", :build]
@@ -30,6 +30,7 @@ class NtfyMacos < Formula
     system "/usr/libexec/PlistBuddy", "-c", "Set :CFBundleVersion #{short_version.delete(".")}", plist
 
     cp "Resources/ntfy-macos.icns", "#{build_dir}/#{app_bundle}/Contents/Resources/"
+    system "./scripts/copy-notification-sounds.sh", "#{build_dir}/#{app_bundle}/Contents/Resources"
     
     system "codesign", "--force", "--deep", "--sign", "-", "#{build_dir}/#{app_bundle}"
     
